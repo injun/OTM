@@ -1,0 +1,7 @@
+perovskite
+ionic
+mixed
+composite
+dual-phase
+BSCF
+LSCF
