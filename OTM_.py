@@ -221,14 +221,14 @@ for root, dirs, files in os.walk(rootPath):
         page_length_supercon  = []
         papers_supercon = 0
 
-        # removng the DUPLICATES in the original data
-        everything_list = re.findall(r'\n\@((.|\n)*?)\},\n\}\n', indata) # divide the indata string in separate records
-        everything_list = list(set(everything_list)) # remove duplicates
-        total_records+=len(everything_list) # count the total number of records (for all folders, not just the current year)
-        everything_list = ' '.join(str(e) for e in everything_list) # convert back to a string
-        everything_list = everything_list.lower() # convert everything lower case
+        # removing the DUPLICATES in the original data
+        everything_list = re.findall(r'\n\@((.|\n)*?)\},\n\}\n', indata)    # divide the indata string in separate records
+        everything_list = list(set(everything_list))                        # remove duplicates
+        total_records += len(everything_list)                               # count the total number of records (for all folders, not just the current year)
+        everything_list = ' '.join(str(e) for e in everything_list)         # convert back to a string
+        everything_list = everything_list.lower()                           # convert everything lower case
 
-        #count the NUMBER OF ABSTRACTS
+        # count the NUMBER OF ABSTRACTS
         abstract_list           = re.findall(r'abstract=\{(.*?)\},', everything_list) # warning: does not capture abstracts with a new line within
         count_abstract          = len(abstract_list)
         length_abstract         = [len(a)-11 for a in abstract_list] # -11 because need to remove "abstract={" and "}" from the string obtained with the regex
