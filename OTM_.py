@@ -1,20 +1,11 @@
 from itertools import cycle
 from itertools import groupby
-# from matplotlib.font_manager import FontProperties
 from matplotlib.ticker import MaxNLocator, MultipleLocator, FormatStrFormatter
 from numpy import *
 from scipy import stats
-# from scipy.interpolate import spline
-# from scipy.stats import norm
-# from sys import argv
-# import csv
 import fnmatch
 import itertools
-# import matplotlib as mp
-# import matplotlib.cm as cm
-# import matplotlib.font_manager as fm
 import matplotlib.gridspec as gridspec
-# import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 import math
 from os.path import getsize as get_size
@@ -24,14 +15,26 @@ import os
 import re
 import scipy as sp
 import shutil
-# import simplejson
 import time
 import unicodedata
-# import prettyplotlib
 import pandas as pd
 
+# series of unused impor commands
+
+# import matplotlib as mp
+# import matplotlib.cm as cm
+# import matplotlib.font_manager as fm
+# import matplotlib.mlab as mlab
+# import simplejson
+# import prettyplotlib
+# from matplotlib.font_manager import FontProperties
+# from scipy.interpolate import spline
+# from scipy.stats import norm
+# from sys import argv
+# import csv
 
 # Definition of functions
+
 class ProgressBar():
     def __init__(self, width=50):
         self.pointer = 0
@@ -49,6 +52,7 @@ class ProgressBar():
             return "|" + "#"*self.pointer + "-"*(self.width-self.pointer)+\
                 "|\n %d percent done, doing year %s, estimated time left: %smin %ss" % (int(x), year, minutes, seconds)
 
+
 def get_size(start_path = '.'):
     total_size = 0
     for dirpath, dirnames, filenames in os.walk(start_path):
@@ -57,11 +61,13 @@ def get_size(start_path = '.'):
             total_size += os.path.getsize(fp)
     return total_size
 
+
 def remove_punctuation(dataString):
     symbols = ["'", "(", ")", ",", ".", ":", ";", "abstract={", "title={", "{", "}"]
     for item in symbols:
         dataString = dataString.replace(item, " ")
     return dataString
+
 
 def keywords_cleanup(indata_keywords):
     indata_keywords = indata_keywords.replace(",",";")
@@ -70,15 +76,18 @@ def keywords_cleanup(indata_keywords):
         indata_keywords = indata_keywords.replace(item, "")
     return indata_keywords
 
+
 def remove_similars(dataString):
     data = pd.read_table('code/similars.csv', sep=',')
     for i in range(len(data)):
         dataString = dataString.replace(data.at[i, 'ORIGINAL'],data.at[i, 'REPLACEMENT'])
     return dataString
 
+
 def get_color():
     for item in ['r', 'b', 'k', 'r', 'b', 'k', 'r', 'b', 'k']:
         yield item
+
 
 def set_fontsize(fig,fontsize):
     """
@@ -90,24 +99,25 @@ def set_fontsize(fig,fontsize):
     for textobj in fig.findobj(match=match):
         textobj.set_fontsize(fontsize)
 
+
 def strip_accents(s):
     nkfd_form = unicodedata.normalize('NFKD', unicode(s))
     return u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
 
 
-
 # Define some common formatting for the plots
-bbox_props = dict(boxstyle="round4,pad=0.3", fc="w", ec="w", lw=1) # boxes enclosing labels on some plots
-#rc({'font.size': 8})
-#rc('lines', linewidth=1.3)
-dpi_fig = 600 # resolution of the figures in dpi
-axes_lw=0.4 # line thickness for the axes
-axes_color='0.7' # grey color for the axes
-plot_font_size = 8
 
+bbox_props = dict(boxstyle="round4,pad=0.3", fc="w", ec="w", lw=1)      # boxes enclosing labels on some plots
+# rc({'font.size': 8})
+# rc('lines', linewidth=1.3)
+dpi_fig = 600           # resolution of the figures in dpi
+axes_lw=0.4             # line thickness for the axes
+axes_color='0.7'        # grey color for the axes
+plot_font_size = 8
 perso_linewidth = 0.3
-# This will change your default rcParams
-def init_plotting():
+
+
+def init_plotting():        # This will change your default rcParams
     plt.rcParams['figure.figsize'] = (3,3)
     plt.rcParams['font.size'] = 8
     plt.rcParams['font.family'] = 'serif'
@@ -150,9 +160,9 @@ init_plotting()
 # Initialization of the script
 
 # script     = argv
-rootPath   = './bibsample/'   # folder containing the bib file
-pattern    = '*.bib'          # extension of data files
-dirResults = './results/'     # where to write the results
+rootPath = './bibsample/'       # folder containing the bib file
+pattern = '*.bib'               # extension of data files
+dirResults = './results/'       # where to write the results
 
 # read the list of keywords to be analysed
 analyse = []
@@ -162,8 +172,8 @@ for line in fh:
 
 # empty the results folder
 if os.path.exists(dirResults):
-    shutil.rmtree(dirResults) # delete it if it exists
-os.makedirs(dirResults)    # create a new, empty results folder
+    shutil.rmtree(dirResults)       # delete it if it exists
+os.makedirs(dirResults)             # create a new, empty results folder
 
 # reading common words list, convert the txt into a list
 listOfWords = []
@@ -181,9 +191,9 @@ keyword_results = ''
 keyword_graph_string = ''
 total_records = 0
 directory_size = get_size(rootPath)
-# commented out: color = get_color()
+color = get_color()
 start_time = time.time()
-# commented out: pb = ProgressBar()
+pb = ProgressBar()
 abstract_length_array = []
 title_length_array    = []
 page_length_array     = []
@@ -202,7 +212,7 @@ for root, dirs, files in os.walk(rootPath):
     counter = 0
     for filename in fnmatch.filter(files, pattern):
         filenameOut = filename
-        filename = rootPath+filename
+        filename = rootPath + filename
         year = (filenameOut[0:4])
         file_size = os.path.getsize(filename)  # get the current file size for the counter
         indata = (open(filename)).read()
