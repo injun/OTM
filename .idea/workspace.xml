@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f9ea6960-7a0d-4d1f-89f2-299a261f994f" name="Default" comment="" />
+    <list default="true" id="f9ea6960-7a0d-4d1f-89f2-299a261f994f" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OTM_.py" afterPath="$PROJECT_DIR$/OTM_.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="OTM.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,10 +30,10 @@
       <file leaf-file-name="OTM_.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OTM_.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="19737">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.4223433" vertical-offset="2667" max-vertical-offset="19125">
+              <caret line="222" column="34" selection-start-line="222" selection-start-column="20" selection-end-line="222" selection-end-column="34" />
               <folding>
-                <element signature="e#0#27#0" expanded="true" />
+                <element signature="e#3648#5460#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -50,6 +53,7 @@
         <option value="C:/Thinkful/unit_3/weather_call.py" />
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/OTM.py" />
+        <option value="$PROJECT_DIR$/OTM_.py" />
       </list>
     </option>
   </component>
@@ -118,7 +122,7 @@
       <console-settings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.OTM">
+  <component name="RunManager" selected="Python.OTM_">
     <configuration default="false" name="ez_setup" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -191,6 +195,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="OTM" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OTM/OTM/OTM.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="OTM_" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="OTM" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/OTM_.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
@@ -319,18 +342,20 @@
       <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.ez_setup" />
       <item index="1" class="java.lang.String" itemvalue="Python.OTM" />
       <item index="2" class="java.lang.String" itemvalue="Python.NY_Bikes_hourly" />
       <item index="3" class="java.lang.String" itemvalue="Python.OTM (1)" />
+      <item index="4" class="java.lang.String" itemvalue="Python.OTM_" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.OTM" />
-        <item index="1" class="java.lang.String" itemvalue="Python.OTM (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Python.NY_Bikes_hourly" />
-        <item index="3" class="java.lang.String" itemvalue="Python.ez_setup" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.OTM_" />
+        <item index="1" class="java.lang.String" itemvalue="Python.OTM" />
+        <item index="2" class="java.lang.String" itemvalue="Python.OTM (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.NY_Bikes_hourly" />
+        <item index="4" class="java.lang.String" itemvalue="Python.ez_setup" />
       </list>
     </recent_temporary>
   </component>
@@ -351,7 +376,19 @@
       <option name="project" value="LOCAL" />
       <updated>1428438723567</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="cleanup - part 1">
+      <created>1428440050100</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1428440050101</updated>
+    </task>
+    <task id="LOCAL-00003" summary="cleanup - part 2">
+      <created>1428440157943</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1428440157943</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -383,9 +420,9 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.287902" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2868098" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297546" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297546" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.121684864" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20826833" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -416,11 +453,13 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="cleanup - part 1" />
+    <MESSAGE value="cleanup - part 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup - part 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -516,12 +555,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41880342" vertical-offset="37474" max-vertical-offset="37825">
+          <caret line="2216" column="0" selection-start-line="2216" selection-start-column="0" selection-end-line="2216" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Anaconda/Lib/site-packages/matplotlib/gridspec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33251834" vertical-offset="2363" max-vertical-offset="8143">
+          <caret line="153" column="0" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/OTM_.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="19737">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.4223433" vertical-offset="2667" max-vertical-offset="19125">
+          <caret line="222" column="34" selection-start-line="222" selection-start-column="20" selection-end-line="222" selection-end-column="34" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#3648#5460#0" expanded="false" />
           </folding>
         </state>
       </provider>
