@@ -5,3 +5,9 @@ composite
 dual-phase
 BSCF
 LSCF
+LSM
+ceria
+zirconia
+CMR
+OTM
+porous-supported
