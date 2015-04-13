@@ -754,7 +754,7 @@ phys_journal_dic = {'acs applied materials and interfaces': 1, 'acs nano': 1, 'a
 
 
 # Data Input
-# coonvert list of keywords in txt into a list 'analyse'
+# convert list of keywords in txt into a list 'analyse'
 analyse = []
 fh = open('code/keywordList.txt', 'r')
 for line in fh:
@@ -770,45 +770,44 @@ with open('code/CommonkeywordList.txt', 'r') as fh:
 # Do the analysis for each year
 for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directory
     counter = 0
-    for filename in fnmatch.filter(files, pattern):
+    for filename in fnmatch.filter(files, pattern):     # finds filenames matching predefined pattern *.bib
         filenameOut = filename
-        filename = rootPath + filename
-        year = (filenameOut[0:4])  # gets year from file name
-        file_size = os.path.getsize(filename)  # get the current file size for the counter
-        indata = (open(filename)).read()  # inputs the current file text into indata
+        year = (filenameOut[0:4])                       # extracts year from file name
+        filename = rootPath + filename                  # adds path
+        file_size = os.path.getsize(filename)           # get the current file size for the counter
+        indata = (open(filename)).read()                # inputs the current resutls file into indata
 
     # initialize the counters for papers (stats measured for each year)
     numberOfPages = []
     numberOfPapers = 0
 
     # removing the DUPLICATES in the original data
-    everything_list = re.findall(r'\n\@((.|\n)*?)\},\n\}\n', indata)  # divide the indata string in separate
-    # recors
-    print everything_list[0]
-    everything_list = list(set(everything_list))  # removes duplicates from list
-    total_records += len(everything_list)  # count the total number of records
-    # (for all folders, not just the current year)
-    everything_list = ' '.join(str(e) for e in everything_list)  # convert back to a string
-    everything_list = everything_list.lower()  # convert everything lower case
+    rawYearlyResults = re.findall(r'\n@((.|\n)*?)\},\n\}\n', indata)  # separate query results by article
+    yearlyResults = set(rawYearlyResults)              # creates a set and removes duplicates (non-iterable)
+    yearlyResults = list(yearlyResults)                # transforms set into a list (iterable)
+    # everything_list2 = list(set(everything_list))    # all-combined expression
+    total_records += len(rawYearlyResults)             # count total number of records in all folders, all years)
+    yearlyResults = ' '.join(str(text) for text in rawYearlyResults)  # joins and converts all text to a string
+    yearlyResults = yearlyResults.lower()        # converts everything lower case
 
-    # count the NUMBER OF ABSTRACTS
-    abstract_list = re.findall(r"abstract=\{(.*?)\},", everything_list)  # warning: does not capture abstracts with a
-    # new line within
+    # count the NUMBER, length and average length OF ABSTRACTS
+    abstract_list = re.findall(r"abstract=\{(.*?)\},", yearlyResults)  # warning: does not capture abstracts with a
+    # line break within
     count_abstract = len(abstract_list)
-    length_abstract = [len(char) - 11 for char in
-                       abstract_list]  # -11 because need to remove "abstract={" and "}" from the string obtained with the regex
+    length_abstract = [len(chars) - 11 for chars in abstract_list]    # -11 because need to remove "abstract={" and "}"
+    # from the string obtained with the regex
     average_abstract_length = sum(length_abstract) / len(length_abstract)
     del abstract_list
 
     # count the number of RECORDS for the current year
-    article_list = re.findall(r'url=\{(.*?)\},', everything_list)
+    article_list = re.findall(r'url=\{(.*?)\},', yearlyResults)
     count = len(article_list)
     del article_list
 
     # stats on ABSTRACT LENGTH vs TITLE LENGTH
-    everything_list2 = re.findall(r'\n\@((.|\n)*?)\},\n\}\n', indata)  # divide the indata string in separate records
-    everything_list2 = list(set(everything_list2))  # remove the duplicate
-    for item in everything_list2:
+    yearlyResults = re.findall(r'\n\@((.|\n)*?)\},\n\}\n', indata)  # divide the indata string in separate records
+    yearlyResults = list(set(yearlyResults))  # remove the duplicate
+    for item in yearlyResults:
         # test if there is an abstract in the record
         item = str(item)
         if "abstract=" in item:
@@ -834,7 +833,7 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
                 title_length_array.append(length_title_isolated)
 
     # compute the average number of pages of papers with 'membrane' somewhere in results file
-    for item in everything_list2:
+    for item in yearlyResults:
         # test if there is an abstract in the record
         item = str(item)
         if "membrane" in item:
@@ -848,19 +847,19 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
                 if 40 < page_length < 0:
                     numberOfPages.append(page_length)
                     numberOfPapers += 1
-    del everything_list2
+    del yearlyResults
 
     # stats on the adoption of EMAIL
     email_count = 0
     correspondence_list = re.findall(r'correspondence_address=\{(.*?)\},',
-                                     everything_list)  # select the correspondence adress field of the record
+                                     rawYearlyResults)  # select the correspondence adress field of the record
     for item in correspondence_list:
         email_count += item.count('email:')
     email_adoption = email_count / float(count)
     del correspondence_list
 
     # stats on the TITLES
-    title_list = re.findall(r'title=\{(.*?)\},', everything_list)  # select the title field of the record
+    title_list = re.findall(r'title=\{(.*?)\},', rawYearlyResults)  # select the title field of the record
     title_list = list(set(title_list))  # remove duplicates in the list
     title_list = [char.replace("title={", "") for char in title_list]
     title_list = [char.replace("}", "") for char in title_list]
@@ -932,7 +931,7 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
 
     # stats on the NUMBER of AUTHORS
 
-    authors_list = re.findall(r'author=\{(.*?)\},', everything_list)  # select the author field
+    authors_list = re.findall(r'author=\{(.*?)\},', rawYearlyResults)  # select the author field
     authors_list = ' '.join(authors_list)
     # authors are enumerated using "and". If N is the number of occurences of "and", and
     # n the number of records, hen we have N + n authors for the records.
@@ -942,7 +941,7 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
     del authors_list
 
     # stats on the LENGTH OF ARTICLES
-    page_list = re.findall(r'pages=\{(.*?)\},', everything_list)  # select the pages field
+    page_list = re.findall(r'pages=\{(.*?)\},', rawYearlyResults)  # select the pages field
     total_length = 0
     # print page_list
     for item in page_list:
@@ -956,7 +955,7 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
     del page_list
 
     # stats on the NUMBER of AFFILIATIONS
-    aff_list = re.findall(r'affiliation=\{(.*?)\},', everything_list)  # select the affiliation list
+    aff_list = re.findall(r'affiliation=\{(.*?)\},', rawYearlyResults)  # select the affiliation list
     aff_list = ' '.join(aff_list)
     # affiliation are separated by ";". same approach than for counting the number of authors
     aff_count = aff_list.count(';')
@@ -964,7 +963,7 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
     del aff_list
 
     # stats on the CITATIONS
-    citations_list = re.findall(r'note=\{(.*?)[\};]', everything_list)  # citation count appear in the 'note' field
+    citations_list = re.findall(r'note=\{(.*?)[\};]', rawYearlyResults)  # citation count appear in the 'note' field
     citations_list_values = [char.replace("cited by (since 1996)", "") for char in citations_list]
     citations_list_values = [char.replace(";", "") for char in citations_list_values]
     # citations_list_values = [a.replace(" ","") for a in citations_list_values]
@@ -988,9 +987,9 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
     # ----------------------------------------------------------- #
     # Network analysis on keywords  ###############################
     # ----------------------------------------------------------- #
-    indata_keywords = re.findall(r'keywords=\{((.|\n)*?)},', everything_list)
+    indata_keywords = re.findall(r'keywords=\{((.|\n)*?)},', rawYearlyResults)
     indata_keywords = str(indata_keywords)
-    indata_keywords_authors = re.findall(r'author_keywords=\{((.|\n)*?)},', everything_list)
+    indata_keywords_authors = re.findall(r'author_keywords=\{((.|\n)*?)},', rawYearlyResults)
     indata_keywords_authors = str(indata_keywords_authors)
     indata_keywords = indata_keywords + ',' + indata_keywords_authors
     indata = remove_punctuation(indata)
@@ -1017,10 +1016,10 @@ for root, dirs, files in os.walk(rootPath):  # for all files in rootpath directo
     # ----------------------------------------------------------- #
 
     # extract only the content of titles and abstracts
-    indata_abs = re.findall(r'abstract=\{((.|\n)*?)},', everything_list)
+    indata_abs = re.findall(r'abstract=\{((.|\n)*?)},', rawYearlyResults)
     indata_abs = list(set(indata_abs))
     indata_abs = str(indata_abs).strip('[]')
-    indata_title = re.findall(r'title=\{((.|\n)*?)},', everything_list)
+    indata_title = re.findall(r'title=\{((.|\n)*?)},', rawYearlyResults)
     indata_title = list(set(indata_title))
     indata_title = str(indata_title).strip('[]')
 
