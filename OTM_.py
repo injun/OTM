@@ -250,33 +250,33 @@ for root, dirs, files in os.walk(rootPath):
         count = len(article_list)
         del article_list
 
-        # stats on ABSTRACT LENGTH vs TITLE LENGTH
-        everything_list2 = re.findall(r'\n@((.|\n)*?)\},\n\}\n', indata)    # separates indata per article, again
-        everything_list2 = list(set(everything_list2))                      # remove duplicates
-        for item in everything_list2:
-            # test if there is an abstract in the record
-            item = str(item)
-            if "abstract=" in item:
-                # compute abstract length
-                abstract = str(re.findall(r'abstract=\{(.*?)\},', item))
-                length_abstract = len(abstract)
-                # compute title length
-                title = str(re.findall(r'\\ntitle=\{(.*?)\},', item))
-                length_title_isolated = len(title)
-                # compute page length
-                page = re.findall(r'pages=\{(.*?)\},', item)
-                page_length = 0
-                for item_reduced in page:
-                    item_short = re.findall(r'([0-9]{1,4}){1}-([0-9]{1,4}){1}', item_reduced)
-                    if item_short is not '[]':
-                        for pairs in item_short:
-                            page_length = int(pairs[1])-int(pairs[0])
-
-                # sanity check for incomplete records. papers over 40 pages (by mistake or legit) are not considered
-                if 40 > page_length > 0:
-                    page_length_array.append(page_length)
-                    abstract_length_array.append(length_abstract)
-                    title_length_array.append(length_title_isolated)
+        # # stats on ABSTRACT LENGTH vs TITLE LENGTH
+        # everything_list2 = re.findall(r'\n@((.|\n)*?)\},\n\}\n', indata)    # separates indata per article, again
+        # everything_list2 = list(set(everything_list2))                      # remove duplicates
+        # for item in everything_list2:
+        #     # test if there is an abstract in the record
+        #     item = str(item)
+        #     if "abstract=" in item:
+        #         # compute abstract length
+        #         abstract = str(re.findall(r'abstract=\{(.*?)\},', item))
+        #         length_abstract = len(abstract)
+        #         # compute title length
+        #         title = str(re.findall(r'\\ntitle=\{(.*?)\},', item))
+        #         length_title_isolated = len(title)
+        #         # compute page length
+        #         page = re.findall(r'pages=\{(.*?)\},', item)
+        #         page_length = 0
+        #         for item_reduced in page:
+        #             item_short = re.findall(r'([0-9]{1,4}){1}-([0-9]{1,4}){1}', item_reduced)
+        #             if item_short is not '[]':
+        #                 for pairs in item_short:
+        #                     page_length = int(pairs[1])-int(pairs[0])
+        #
+        #         # sanity check for incomplete records. papers over 40 pages (by mistake or legit) are not considered
+        #         if 40 > page_length > 0:
+        #             page_length_array.append(page_length)
+        #             abstract_length_array.append(length_abstract)
+        #             title_length_array.append(length_title_isolated)
 
         # # compute the average number of pages of superconductivity papers
         # for item in everything_list2:
@@ -315,7 +315,7 @@ for root, dirs, files in os.walk(rootPath):
         # average_title_length = sum(length_title) / len(length_title)
         # del title_list
 
-        # count the number of SOURCE TITLE
+        # count the number of SOURCE TITLES
         article_only = re.findall(r'\n@ARTICLE((.|\n)*?)\},\n\}\n', indata)  # restrict to journals, exclude proceedings
         article_only = list(set(article_only))                               # remove duplicates
         article_only = ' '.join(str(e) for e in article_only)                # convert back to a string
@@ -386,20 +386,20 @@ for root, dirs, files in os.walk(rootPath):
         average_author_count = (author_count + count) / float(count)
         del authors_list
 
-        # stats on the LENGTH OF ARTICLES
-        page_list = re.findall(r'pages=\{(.*?)\},', everything_list) # select the pages field
-        total_length = 0
-        # print page_list
-        for item in page_list:
-            item_short = re.findall(r'([0-9]{1,4}){1}-([0-9]{1,4}){1}', item)
-            if item_short is not '[]':
-                for pairs in item_short:
-                    length = int(pairs[1])-int(pairs[0])
-                if 40 > length > 0:
-                    # sanity check
-                    total_length += length
-        average_page_count = total_length / float(len(page_list))
-        del page_list
+        # # stats on the LENGTH OF ARTICLES
+        # page_list = re.findall(r'pages=\{(.*?)\},', everything_list) # select the pages field
+        # total_length = 0
+        # # print page_list
+        # for item in page_list:
+        #     item_short = re.findall(r'([0-9]{1,4}){1}-([0-9]{1,4}){1}', item)
+        #     if item_short is not '[]':
+        #         for pairs in item_short:
+        #             length = int(pairs[1])-int(pairs[0])
+        #         if 40 > length > 0:
+        #             # sanity check
+        #             total_length += length
+        # average_page_count = total_length / float(len(page_list))
+        # del page_list
 
         # stats on the NUMBER of AFFILIATIONS
         aff_list = re.findall(r'affiliation=\{(.*?)\},', everything_list)  # retrives the affiliation list
@@ -427,9 +427,9 @@ for root, dirs, files in os.walk(rootPath):
         y_90 = stats.scoreatpercentile(citations_list_values, 90)
         y_95 = stats.scoreatpercentile(citations_list_values, 95)
 
-        average_page_count_supercon = np.average(page_length_supercon)
-        if average_page_count_supercon:
-            print "Average length of superconductivity papers number: %s" % str(average_page_count_supercon)
+        # average_page_count_supercon = np.average(page_length_supercon)
+        # if average_page_count_supercon:
+        #     print "Average length of superconductivity papers number: %s" % str(average_page_count_supercon)
 
         # ----------------------------------------------------------- #
         # Network analysis on keywords  ###############################
@@ -550,9 +550,9 @@ for root, dirs, files in os.walk(rootPath):
         # with open(outFileName, 'a+') as of:
         #         of.write(year + ',' + str(email_adoption) + '\n')
 
-        outFileName = dirResults + 'page_count.txt'
-        with open(outFileName, 'a+') as of:
-                of.write(year + ',' + str(average_page_count) + '\n')
+        # outFileName = dirResults + 'page_count.txt'
+        # with open(outFileName, 'a+') as of:
+        #         of.write(year + ',' + str(average_page_count) + '\n')
 
         outFileName = dirResults + 'authors-statistics.txt'
         with open(outFileName, 'a+') as of:
@@ -586,10 +586,10 @@ for root, dirs, files in os.walk(rootPath):
         with open(outFileName, 'a+') as of:
                 of.write(year + ',' + str(count) + '\n')
 
-        outFileName = dirResults + 'superconpaper-length.txt'
-        with open(outFileName, 'a+') as of:
-            if math.isnan(average_page_count_supercon): average_page_count_supercon=0 #check if is NaN
-            of.write(year + ',' + str(average_page_count_supercon)+ ',' + str(papers_supercon) + '\n')
+        # outFileName = dirResults + 'superconpaper-length.txt'
+        # with open(outFileName, 'a+') as of:
+        #     if math.isnan(average_page_count_supercon): average_page_count_supercon=0 #check if is NaN
+        #     of.write(year + ',' + str(average_page_count_supercon)+ ',' + str(papers_supercon) + '\n')
 
         outFileName = dirResults + 'keywords_graphe.csv'
         with open(outFileName, 'a+') as of:
@@ -604,9 +604,9 @@ for root, dirs, files in os.walk(rootPath):
         os.system('clear')
         # print pb(int(counter/float(directory_size)*100), year, time_left)
 
-print "Total number of records: %s" % str(total_records)
-average_page_count_supercon = np.average(page_length_supercon)
-print "Average length of superconductivity papers number: %s" % str(average_page_count_supercon)
+# print "Total number of records: %s" % str(total_records)
+# average_page_count_supercon = np.average(page_length_supercon)
+# print "Average length of superconductivity papers number: %s" % str(average_page_count_supercon)
 
 # Save the length of titles, abstract and page length arrays to files
 outFileName = dirResults + 'array_title.txt'
@@ -773,54 +773,54 @@ plt.savefig(fig_name, dpi=dpi_fig)
 
 # Length of articles
 # plot the statistics of LENGTH OF ARTICLES -------------------------
-plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(3,3))
-
-sub8 = plt.subplot(111)
-plt.ylabel('Number of pages',multialignment='center')
-minorLocator = MultipleLocator(0.2)
-sub8.yaxis.set_minor_locator(minorLocator)
-sub8.axes.set_xlim(left=1970, right=2013)
-sub8.axes.set_ylim(bottom=3, top=6.5)
-sub8.set_yticks([4, 5, 6])
-sub8.xaxis.set_major_locator(MaxNLocator(5))
-sub8.yaxis.grid(True, linestyle='-', linewidth=axes_lw, color=axes_color)
-
-plt.tight_layout()
-
-for loc, spine in sub8.spines.iteritems():
-    spine.set_lw(axes_lw)
-    spine.set_color(axes_color)
+# plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(3,3))
+#
+# sub8 = plt.subplot(111)
+# plt.ylabel('Number of pages',multialignment='center')
+# minorLocator = MultipleLocator(0.2)
+# sub8.yaxis.set_minor_locator(minorLocator)
+# sub8.axes.set_xlim(left=1970, right=2013)
+# sub8.axes.set_ylim(bottom=3, top=6.5)
+# sub8.set_yticks([4, 5, 6])
+# sub8.xaxis.set_major_locator(MaxNLocator(5))
+# sub8.yaxis.grid(True, linestyle='-', linewidth=axes_lw, color=axes_color)
+# #
+# plt.tight_layout()
+#
+# for loc, spine in sub8.spines.iteritems():
+#     spine.set_lw(axes_lw)
+#     spine.set_color(axes_color)
 
 # plt.text(1985, 3.5, 'Pages count', color='k', bbox=bbox_props, multialignment='center')
 
-outFileCSV = dirResults + 'page_count.txt'
-result = genfromtxt(outFileCSV, delimiter=',')
-valeurYear = [x[0] for x in result]
-count = [x[1] for x in result]
+# outFileCSV = dirResults + 'page_count.txt'
+# result = genfromtxt(outFileCSV, delimiter=',')
+# valeurYear = [x[0] for x in result]
+# count = [x[1] for x in result]
 
-plt.plot(valeurYear, count, color='k')
-plt.fill_between(valeurYear, count, color='b', alpha='0.2')
-fig_name = 'figure 1e.png'
-plt.savefig(fig_name, dpi=dpi_fig)
-
-# Email adoption
-
-plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(3,3))
-
-sub4 = plt.subplot(111)
-plt.ylabel('Fraction [%]',multialignment='center')
-sub4.axes.set_xlim(left=1990, right=2013)
-sub4.axes.set_ylim(bottom=0, top=100)
-sub4.xaxis.set_major_locator(MaxNLocator(3))
-sub4.set_yticks([25, 50, 75, 100])
-minorLocator = MultipleLocator(1)
-sub4.xaxis.set_minor_locator(minorLocator)
-sub4.yaxis.grid(True, linestyle='-', linewidth=axes_lw, color=axes_color)
-plt.subplots_adjust(right=0.95)
-
-for loc, spine in sub4.spines.iteritems():
-    spine.set_lw(axes_lw)
-    spine.set_color(axes_color)
+# plt.plot(valeurYear, count, color='k')
+# plt.fill_between(valeurYear, count, color='b', alpha='0.2')
+# fig_name = 'figure 1e.png'
+# plt.savefig(fig_name, dpi=dpi_fig)
+#
+# # Email adoption
+#
+# plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(3,3))
+#
+# sub4 = plt.subplot(111)
+# plt.ylabel('Fraction [%]',multialignment='center')
+# sub4.axes.set_xlim(left=1990, right=2013)
+# sub4.axes.set_ylim(bottom=0, top=100)
+# sub4.xaxis.set_major_locator(MaxNLocator(3))
+# sub4.set_yticks([25, 50, 75, 100])
+# minorLocator = MultipleLocator(1)
+# sub4.xaxis.set_minor_locator(minorLocator)
+# sub4.yaxis.grid(True, linestyle='-', linewidth=axes_lw, color=axes_color)
+# plt.subplots_adjust(right=0.95)
+#
+# for loc, spine in sub4.spines.iteritems():
+#     spine.set_lw(axes_lw)
+#     spine.set_color(axes_color)
 # Generates output file and plots email stats
 
 # outFileCSV = dirResults + 'email-adoption.txt'
@@ -941,20 +941,20 @@ plt.subplots_adjust(bottom=0.03, right=0.9)
 sub1.tick_params(which='minor', color=axes_color, width=axes_lw)
 sub2.tick_params(which='minor', color=axes_color, width=axes_lw)
 sub3.tick_params(which='minor', color=axes_color, width=axes_lw)
-sub4.tick_params(which='minor', color=axes_color, width=axes_lw)
+# sub4.tick_params(which='minor', color=axes_color, width=axes_lw)
 sub5.tick_params(which='minor', color=axes_color, width=axes_lw)
 sub6.tick_params(which='minor', color=axes_color, width=axes_lw)
 sub7.tick_params(which='minor', color=axes_color, width=axes_lw)
-sub8.tick_params(which='minor', color=axes_color, width=axes_lw)
+# sub8.tick_params(which='minor', color=axes_color, width=axes_lw)
 
 sub1.tick_params(which='major', color=axes_color, width=axes_lw)
 sub2.tick_params(which='major', color=axes_color, width=axes_lw)
 sub3.tick_params(which='major', color=axes_color, width=axes_lw)
-sub4.tick_params(which='major', color=axes_color, width=axes_lw)
+# sub4.tick_params(which='major', color=axes_color, width=axes_lw)
 sub5.tick_params(which='major', color=axes_color, width=axes_lw)
 sub6.tick_params(which='major', color=axes_color, width=axes_lw)
 sub7.tick_params(which='major', color=axes_color, width=axes_lw)
-sub8.tick_params(which='major', color=axes_color, width=axes_lw)
+# sub8.tick_params(which='major', color=axes_color, width=axes_lw)
 
 fig_name = 'figure 1h.png'
 plt.savefig(fig_name, dpi=dpi_fig)
