@@ -36,31 +36,31 @@ import pandas as pd
 # Definition of functions
 
 
-class ProgressBar():
-    def __init__(self, width=50):
-        self.pointer = 0
-        self.width = width
-
-    def __call__(self,x, year, time_left):
-         # x in percent
-         self.pointer = int(self.width*(x/100.0))
-         minutes = int(time_left/60)
-         seconds = int(time_left % 60)
-         if minutes == 0:
-            return "|" + "#"*self.pointer + "-"*(self.width-self.pointer)+\
-                "|\n %d percent done, doing year %s, estimated time left:  %ss" % (int(x), year, seconds)
-         else:
-            return "|" + "#"*self.pointer + "-"*(self.width-self.pointer)+\
-                "|\n %d percent done, doing year %s, estimated time left: %smin %ss" % (int(x), year, minutes, seconds)
-
-
-def get_size(start_path = '.'):
-    total_size = 0
-    for dirpath, dirnames, filenames in os.walk(start_path):
-        for f in filenames:
-            fp = os.path.join(dirpath, f)
-            total_size += os.path.getsize(fp)
-    return total_size
+# class ProgressBar():
+#     def __init__(self, width=50):
+#         self.pointer = 0
+#         self.width = width
+#
+#     def __call__(self,x, year, time_left):
+#          # x in percent
+#          self.pointer = int(self.width*(x/100.0))
+#          minutes = int(time_left/60)
+#          seconds = int(time_left % 60)
+#          if minutes == 0:
+#             return "|" + "#"*self.pointer + "-"*(self.width-self.pointer)+\
+#                 "|\n %d percent done, doing year %s, estimated time left:  %ss" % (int(x), year, seconds)
+#          else:
+#             return "|" + "#"*self.pointer + "-"*(self.width-self.pointer)+\
+#                 "|\n %d percent done, doing year %s, estimated time left: %smin %ss" % (int(x), year, minutes, seconds)
+#
+#
+# def get_size(start_path = '.'):
+#     total_size = 0
+#     for dirpath, dirnames, filenames in os.walk(start_path):
+#         for f in filenames:
+#             fp = os.path.join(dirpath, f)
+#             total_size += os.path.getsize(fp)
+#     return total_size
 
 
 def remove_punctuation(dataString):
@@ -86,8 +86,9 @@ def remove_similars(dataString):
 
 
 def get_color():
-    for item in ['r', 'b', 'k', 'r', 'b', 'k', 'r', 'b', 'k']:
-        yield item
+    while True:
+        for item in ['r', 'b', 'k']:
+            yield item
 
 
 def set_fontsize(fig,fontsize):
@@ -184,10 +185,10 @@ os.makedirs(dirResults)             # create a new, empty results folder
 keyword_results = ''
 keyword_graph_string = ''
 total_records = 0       # total number of records (articles) in all results files
-directory_size = get_size(rootPath)
+# directory_size = get_size(rootPath)
 color = get_color()
 start_time = time.time()
-pb = ProgressBar()
+# pb = ProgressBar()
 abstract_length_array = []
 title_length_array = []
 page_length_array = []
@@ -222,12 +223,11 @@ for root, dirs, files in os.walk(rootPath):
         filenameOut = filename
         filename = rootPath + filename
         year = (filenameOut[0:4])               # retrieves year from results filename
-        file_size = os.path.getsize(filename)   # get the current file size for the counter
         indata = (open(filename)).read()        # retrieves full text from results file
 
-        # initialize the counters for superconductivity papers (stats measured for each year)
-        page_length_supercon = []
-        papers_supercon = 0
+        # # initialize the counters for superconductivity papers (stats measured for each year)
+        # page_length_supercon = []
+        # papers_supercon = 0
 
         # removing the DUPLICATES in the original data
         everything_list = re.findall(r'\n@((.|\n)*?)\},\n\}\n', indata)     # separates indata per article
@@ -409,7 +409,7 @@ for root, dirs, files in os.walk(rootPath):
         average_aff_count = (aff_count + count)/float(count)
         del aff_list
 
-        # stats on the CITATIONS
+# stats on the CITATIONS
         citations_list = re.findall(r'note=\{(.*?)[\};]', everything_list) # citation count appear in the 'note' field
         citations_list_values = [a.replace("cited by (since 1996)", "") for a in citations_list]
         citations_list_values = [a.replace(";", "") for a in citations_list_values]
@@ -419,7 +419,7 @@ for root, dirs, files in os.walk(rootPath):
 
         average_citations = sum(citations_list_values)/len(citations_list_values)
         stdev_citations = sp.std(citations_list_values)
-        # calculate the cumulative probability for various range
+# calculate the cumulative probability for various range
         y_50 = stats.scoreatpercentile(citations_list_values, 50)
         y_60 = stats.scoreatpercentile(citations_list_values, 60)
         y_70 = stats.scoreatpercentile(citations_list_values, 70)
@@ -431,9 +431,10 @@ for root, dirs, files in os.walk(rootPath):
         # if average_page_count_supercon:
         #     print "Average length of superconductivity papers number: %s" % str(average_page_count_supercon)
 
-        # ----------------------------------------------------------- #
-        # Network analysis on keywords  ###############################
-        # ----------------------------------------------------------- #
+# ----------------------------------------------------------- #
+# Network analysis on keywords  ###############################
+# ----------------------------------------------------------- #
+
         indata_keywords = re.findall(r'keywords=\{((.|\n)*?)},', everything_list)
         indata_keywords = str(indata_keywords)
         indata_keywords_authors = re.findall(r'author_keywords=\{((.|\n)*?)},', everything_list)
@@ -458,11 +459,11 @@ for root, dirs, files in os.walk(rootPath):
                 keyword_graph_string += x + '\n'
 
         keyword_graph_string = strip_accents(keyword_graph_string)
-        # ----------------------------------------------------------- #
-        # Analysis of the frequency of words in titles and abstracts  #
-        # ----------------------------------------------------------- #
+# ----------------------------------------------------------- #
+# Analysis of the frequency of words in titles and abstracts  #
+# ----------------------------------------------------------- #
 
-        # extract only the content of titles and abstracts
+# extract only the content of titles and abstracts
         indata_abs = re.findall(r'abstract=\{((.|\n)*?)},', everything_list)
         indata_abs = list(set(indata_abs))
         indata_abs = str(indata_abs).strip('[]')
@@ -488,7 +489,7 @@ for root, dirs, files in os.walk(rootPath):
 
         # preparing the raw text file for the wordle, using only the most frequent words
         # remove all entries with count less than 3, so that rarely used words are not considered
-        keyword_sorted = [item for item in l if item[1]>2]
+        keyword_sorted = [item for item in l if item[1] > 2]
         keyword_sorted_curated = filter(lambda name: name[0] not in listOfWords, keyword_sorted) # remove all keywords from the common words list
         wordle_list = keyword_sorted_curated[:150] # select only the 150 most frequent words of the year
         wordle_string = ' '.join(((e[0] + ' ') * int(e[1]) ) for e in wordle_list) # prepare the data for the wordle file
@@ -596,33 +597,33 @@ for root, dirs, files in os.walk(rootPath):
             of.write(keyword_graph_string)
 
 
-        # progress bar
-        counter += file_size
-        time_used = time.time() - start_time
-        time_increment = time_used / float(counter)
-        time_left = (directory_size - counter) * time_increment
-        os.system('clear')
-        # print pb(int(counter/float(directory_size)*100), year, time_left)
+        # # progress bar
+        # counter += file_size
+        # time_used = time.time() - start_time
+        # time_increment = time_used / float(counter)
+        # time_left = (directory_size - counter) * time_increment
+        # os.system('clear')
+        # # print pb(int(counter/float(directory_size)*100), year, time_left)
 
 # print "Total number of records: %s" % str(total_records)
 # average_page_count_supercon = np.average(page_length_supercon)
 # print "Average length of superconductivity papers number: %s" % str(average_page_count_supercon)
 
-# Save the length of titles, abstract and page length arrays to files
-outFileName = dirResults + 'array_title.txt'
-with open(outFileName, 'a+') as of:
-    for item in title_length_array:
-        of.write(str(item) + '\n')
+# # Save the length of titles, abstract and page length arrays to files
+# outFileName = dirResults + 'array_title.txt'
+# with open(outFileName, 'a+') as of:
+#     for item in title_length_array:
+#         of.write(str(item) + '\n')
+#
+# outFileName = dirResults + 'array_abstract.txt'
+# with open(outFileName, 'a+') as of:
+#     for item in abstract_length_array:
+#         of.write("%s\n" % str(item))
 
-outFileName = dirResults + 'array_abstract.txt'
-with open(outFileName, 'a+') as of:
-    for item in abstract_length_array:
-        of.write("%s\n" % str(item))
-
-outFileName = dirResults + 'array_page.txt'
-with open(outFileName, 'a+') as of:
-    for item in page_length_array:
-        of.write("%s\n" % str(item))
+# outFileName = dirResults + 'array_page.txt'
+# with open(outFileName, 'a+') as of:
+#     for item in page_length_array:
+#         of.write("%s\n" % str(item))
 
 # Master plot AUTHORS, CITATIONS, etc.. with multiple panels
 # Abstract and title length
@@ -911,7 +912,7 @@ plt.text(2014, 18, 'Ceramic', color='k', bbox=bbox_props)
 plt.text(2014, 49, 'Materials', color='k', bbox=bbox_props)
 plt.text(2014, 85, 'Other', color='k', bbox=bbox_props)
 
-set_fontsize(plt,plot_font_size)
+set_fontsize(plt, plot_font_size)
 
 outFileCSV = dirResults + 'field-statistics.txt'
 result = genfromtxt(outFileCSV, delimiter=',')
@@ -987,7 +988,7 @@ for loc, spine in sub1.spines.iteritems():
     spine.set_lw(axes_lw)
     spine.set_color(axes_color)
 
-i=0
+i = 0
 for t in analyse:
     t = t[0]
     outFileCSV = dirResults + t + '-results.csv'
@@ -1039,140 +1040,140 @@ plt.tight_layout()
 fig_name = 'figure keyword.png'
 plt.savefig(fig_name, dpi=dpi_fig)
 
-# Plot with abstract and title length, page count
-plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(7,2))
-
-cmap = get_cmap('jet', 10)
-
-# plot ABSTRACT vs TITLE LENGTH
-sub1 = plt.subplot(131)
-sub1.set_title('A')
-sub1.set_ylabel('Abstract [char.]')
-sub1.set_xlabel('Title [char.]')
-sub1.axes.set_ylim(bottom=0, top=2500)
-sub1.axes.set_xlim(right=250)
-sub1.xaxis.set_major_locator(MaxNLocator(5))
-set_fontsize(plt,10)
-
-dirResults = './'+'resultsCeramicomics/'
-outFileCSV = dirResults + 'array_title.txt'
-title_length = genfromtxt(outFileCSV)
-outFileCSV = dirResults + 'array_abstract.txt'
-abstract_length = genfromtxt(outFileCSV)
-
-H, xedges, yedges = histogram2d(abstract_length, title_length, range=[[0.,2500.0], [0.,250.0]], bins=(25, 25))
-extent = [yedges[0], yedges[-1], xedges[0], xedges[-1]]
-sub1.imshow(H, extent=extent, origin='lower', aspect='auto', interpolation='bicubic')
-levels = ( 3.0e3, 1.0e3, 500, 1.0e2, 2.0e1)
-cset1 = plt.contour(H, levels, origin='lower',colors=['0.18', '0.72', '0.84', '0.97', '1'],  linewidths=(0.4),extent=extent)
-for c in cset1.collections:
-    c.set_linestyle('solid')
-cmap = get_cmap('jet', 10)
-
-# plot ABSTRACT vs PAGES
-sub2 = plt.subplot(132)
-sub2.set_title('B')
-sub2.set_ylabel('Abstract [char.]')
-sub2.set_xlabel('Pages')
-sub2.axes.set_ylim(bottom=0, top=2500)
-sub2.axes.set_xlim(right=25)
-sub2.xaxis.set_major_locator(MaxNLocator(5))
-
-outFileCSV = dirResults + 'array_page.txt'
-page_length = genfromtxt(outFileCSV)
-H, xedges, yedges = histogram2d(abstract_length, page_length, range=[[0.,2500.0], [0.,25.0]], bins=(25, 25))
-extent = [yedges[0], yedges[-1], xedges[0], xedges[-1]]
-
-sub2.imshow(H, extent=extent, origin='lower', aspect='auto', interpolation='bicubic')
-levels = (3.0e3, 1.0e3, 500, 1.0e2, 2.0e1)
-cset2 = plt.contour(H, levels, origin='lower',colors=['0.18', '0.82', '0.91', '0.98', '1'],  linewidths=(0.4),extent=extent)
-set_fontsize(plt,plot_font_size)
-for c in cset2.collections:
-    c.set_linestyle('solid')
-
-# plot TITLE LENGTH vs PAGES
-sub3 = plt.subplot(133)
-sub3.set_title('C')
-sub3.set_ylabel('Title [char.]')
-sub3.set_xlabel('Pages')
-sub3.axes.set_ylim(bottom=0, top=250)
-sub3.axes.set_xlim(right=25)
-sub3.xaxis.set_major_locator(MaxNLocator(5))
-
-H, xedges, yedges = histogram2d(title_length, page_length, range=[[0.,250.0], [0.,25.0]], bins=(25, 25))
-extent = [yedges[0], yedges[-1], xedges[0], xedges[-1]]
-sub3.imshow(H, extent=extent, origin='lower', aspect='auto', interpolation='bicubic')
-levels = (3.0e3, 1.0e3, 500, 1.0e2, 2.0e1)
-cset3  = plt.contour(H, levels, origin='lower',colors=['0.18',  '0.82', '0.91', '0.98', '1'],  linewidths=(0.4),extent=extent)
-set_fontsize(plt,plot_font_size)
-for c in cset3.collections:
-    c.set_linestyle('solid')
-
-# adjust the font size of the labels of the contour plot
-sub1.clabel(cset1, inline=1, fontsize=8, fmt='%1.0i', zorder=2)
-sub2.clabel(cset2, inline=1, fontsize=8, fmt='%1.0i', zorder=2)
-sub3.clabel(cset3, inline=1, fontsize=8, fmt='%1.0i', zorder=2)
-
-for loc, spine in sub1.spines.iteritems():
-    spine.set_lw(axes_lw)
-    spine.set_color(axes_color)
-
-for loc, spine in sub2.spines.iteritems():
-    spine.set_lw(axes_lw)
-    spine.set_color(axes_color)
-
-for loc, spine in sub3.spines.iteritems():
-    spine.set_lw(axes_lw)
-    spine.set_color(axes_color)
-
-sub1.tick_params(which='minor', color=axes_color, width=axes_lw)
-sub2.tick_params(which='minor', color=axes_color, width=axes_lw)
-sub3.tick_params(which='minor', color=axes_color, width=axes_lw)
-
-sub1.tick_params(which='major', color=axes_color, width=axes_lw)
-sub2.tick_params(which='major', color=axes_color, width=axes_lw)
-sub3.tick_params(which='major', color=axes_color, width=axes_lw)
-
-plt.tight_layout()
-
-fig_name = 'figure abstract page length.png'
-plt.savefig(fig_name, dpi=dpi_fig)
-
-# Plot of length of superconductivity papers
-plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(5,5))
-
-sub1 = plt.subplot(111)
-# plt.title('A')
-sub1.set_ylabel('Paper Length [norm.]')
-# sub1.axes.set_ylim(bottom=0)
-sub1.axes.set_xlim(right=1999, left=1982)
-sub1.set_ylim(top=7, bottom=0)
-sub1.xaxis.set_major_locator(MaxNLocator(5))
-sub1.yaxis.grid(True, linestyle='-', linewidth=axes_lw, color=axes_color)
-ax2 = sub1.twinx()
-ax2.axes.set_xlim(right=1999, left=1982)
-ax2.set_ylim(top=500, bottom=0)
-
-
-for loc, spine in sub1.spines.iteritems():
-    spine.set_lw(axes_lw)
-    spine.set_color(axes_color)
-# plt.text(1996, 1, 'Title', color='k', bbox=bbox_props)
-
-for t in analyse:
-    t = t[0]
-    outFileCSV = dirResults + 'superconpaper-length.txt'
-    result = genfromtxt(outFileCSV, delimiter=',')
-    valeurYear = [x[0] for x in result]
-    length_superconpaper = [x[1] for x in result]
-    number = [x[2] for x in result]
-
-sub1.plot(valeurYear, length_superconpaper, color='k')
-sub1.fill_between(valeurYear, length_superconpaper, color='b', alpha='0.2')
-ax2.plot(valeurYear, number, color='k')
-ax2.fill_between(valeurYear, number, color='g', alpha='0.2')
-
-set_fontsize(plt, plot_font_size)
-
-fig_name = 'figure supercon page length.png'
-plt.savefig(fig_name, dpi=dpi_fig)
+# # Plot with abstract and title length, page count
+# plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(7,2))
+#
+# cmap = get_cmap('jet', 10)
+#
+# # plot ABSTRACT vs TITLE LENGTH
+# sub1 = plt.subplot(131)
+# sub1.set_title('A')
+# sub1.set_ylabel('Abstract [char.]')
+# sub1.set_xlabel('Title [char.]')
+# sub1.axes.set_ylim(bottom=0, top=2500)
+# sub1.axes.set_xlim(right=250)
+# sub1.xaxis.set_major_locator(MaxNLocator(5))
+# set_fontsize(plt,10)
+#
+# dirResults = './'+'resultsCeramicomics/'
+# outFileCSV = dirResults + 'array_title.txt'
+# title_length = genfromtxt(outFileCSV)
+# outFileCSV = dirResults + 'array_abstract.txt'
+# abstract_length = genfromtxt(outFileCSV)
+#
+# H, xedges, yedges = histogram2d(abstract_length, title_length, range=[[0.,2500.0], [0.,250.0]], bins=(25, 25))
+# extent = [yedges[0], yedges[-1], xedges[0], xedges[-1]]
+# sub1.imshow(H, extent=extent, origin='lower', aspect='auto', interpolation='bicubic')
+# levels = ( 3.0e3, 1.0e3, 500, 1.0e2, 2.0e1)
+# cset1 = plt.contour(H, levels, origin='lower',colors=['0.18', '0.72', '0.84', '0.97', '1'],  linewidths=(0.4),extent=extent)
+# for c in cset1.collections:
+#     c.set_linestyle('solid')
+# cmap = get_cmap('jet', 10)
+#
+# # plot ABSTRACT vs PAGES
+# sub2 = plt.subplot(132)
+# sub2.set_title('B')
+# sub2.set_ylabel('Abstract [char.]')
+# sub2.set_xlabel('Pages')
+# sub2.axes.set_ylim(bottom=0, top=2500)
+# sub2.axes.set_xlim(right=25)
+# sub2.xaxis.set_major_locator(MaxNLocator(5))
+#
+# outFileCSV = dirResults + 'array_page.txt'
+# page_length = genfromtxt(outFileCSV)
+# H, xedges, yedges = histogram2d(abstract_length, page_length, range=[[0.,2500.0], [0.,25.0]], bins=(25, 25))
+# extent = [yedges[0], yedges[-1], xedges[0], xedges[-1]]
+#
+# sub2.imshow(H, extent=extent, origin='lower', aspect='auto', interpolation='bicubic')
+# levels = (3.0e3, 1.0e3, 500, 1.0e2, 2.0e1)
+# cset2 = plt.contour(H, levels, origin='lower',colors=['0.18', '0.82', '0.91', '0.98', '1'],  linewidths=(0.4),extent=extent)
+# set_fontsize(plt,plot_font_size)
+# for c in cset2.collections:
+#     c.set_linestyle('solid')
+#
+# # plot TITLE LENGTH vs PAGES
+# sub3 = plt.subplot(133)
+# sub3.set_title('C')
+# sub3.set_ylabel('Title [char.]')
+# sub3.set_xlabel('Pages')
+# sub3.axes.set_ylim(bottom=0, top=250)
+# sub3.axes.set_xlim(right=25)
+# sub3.xaxis.set_major_locator(MaxNLocator(5))
+#
+# H, xedges, yedges = histogram2d(title_length, page_length, range=[[0.,250.0], [0.,25.0]], bins=(25, 25))
+# extent = [yedges[0], yedges[-1], xedges[0], xedges[-1]]
+# sub3.imshow(H, extent=extent, origin='lower', aspect='auto', interpolation='bicubic')
+# levels = (3.0e3, 1.0e3, 500, 1.0e2, 2.0e1)
+# cset3  = plt.contour(H, levels, origin='lower',colors=['0.18',  '0.82', '0.91', '0.98', '1'],  linewidths=(0.4),extent=extent)
+# set_fontsize(plt,plot_font_size)
+# for c in cset3.collections:
+#     c.set_linestyle('solid')
+#
+# # adjust the font size of the labels of the contour plot
+# sub1.clabel(cset1, inline=1, fontsize=8, fmt='%1.0i', zorder=2)
+# sub2.clabel(cset2, inline=1, fontsize=8, fmt='%1.0i', zorder=2)
+# sub3.clabel(cset3, inline=1, fontsize=8, fmt='%1.0i', zorder=2)
+#
+# for loc, spine in sub1.spines.iteritems():
+#     spine.set_lw(axes_lw)
+#     spine.set_color(axes_color)
+#
+# for loc, spine in sub2.spines.iteritems():
+#     spine.set_lw(axes_lw)
+#     spine.set_color(axes_color)
+#
+# for loc, spine in sub3.spines.iteritems():
+#     spine.set_lw(axes_lw)
+#     spine.set_color(axes_color)
+#
+# sub1.tick_params(which='minor', color=axes_color, width=axes_lw)
+# sub2.tick_params(which='minor', color=axes_color, width=axes_lw)
+# sub3.tick_params(which='minor', color=axes_color, width=axes_lw)
+#
+# sub1.tick_params(which='major', color=axes_color, width=axes_lw)
+# sub2.tick_params(which='major', color=axes_color, width=axes_lw)
+# sub3.tick_params(which='major', color=axes_color, width=axes_lw)
+#
+# plt.tight_layout()
+#
+# fig_name = 'figure abstract page length.png'
+# plt.savefig(fig_name, dpi=dpi_fig)
+#
+# # Plot of length of superconductivity papers
+# plt.figure(num=None, dpi=dpi_fig, facecolor='w', edgecolor='w', frameon=False, figsize=(5,5))
+#
+# sub1 = plt.subplot(111)
+# # plt.title('A')
+# sub1.set_ylabel('Paper Length [norm.]')
+# # sub1.axes.set_ylim(bottom=0)
+# sub1.axes.set_xlim(right=1999, left=1982)
+# sub1.set_ylim(top=7, bottom=0)
+# sub1.xaxis.set_major_locator(MaxNLocator(5))
+# sub1.yaxis.grid(True, linestyle='-', linewidth=axes_lw, color=axes_color)
+# ax2 = sub1.twinx()
+# ax2.axes.set_xlim(right=1999, left=1982)
+# ax2.set_ylim(top=500, bottom=0)
+#
+#
+# for loc, spine in sub1.spines.iteritems():
+#     spine.set_lw(axes_lw)
+#     spine.set_color(axes_color)
+# # plt.text(1996, 1, 'Title', color='k', bbox=bbox_props)
+#
+# for t in analyse:
+#     t = t[0]
+#     outFileCSV = dirResults + 'superconpaper-length.txt'
+#     result = genfromtxt(outFileCSV, delimiter=',')
+#     valeurYear = [x[0] for x in result]
+#     length_superconpaper = [x[1] for x in result]
+#     number = [x[2] for x in result]
+#
+# sub1.plot(valeurYear, length_superconpaper, color='k')
+# sub1.fill_between(valeurYear, length_superconpaper, color='b', alpha='0.2')
+# ax2.plot(valeurYear, number, color='k')
+# ax2.fill_between(valeurYear, number, color='g', alpha='0.2')
+#
+# set_fontsize(plt, plot_font_size)
+#
+# fig_name = 'figure supercon page length.png'
+# plt.savefig(fig_name, dpi=dpi_fig)
