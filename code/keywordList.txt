@@ -1,8 +1,8 @@
 perovskite
-mixed
-composite
-dual-phase
-BSCF
-LSCF
-ceria
+fluorite
+surface
+dual
+bscf
+lscf
+cerium
 zirconia

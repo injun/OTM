@@ -3,7 +3,6 @@ from itertools import groupby
 from matplotlib.ticker import MaxNLocator, MultipleLocator
 from numpy import *
 import fnmatch
-import itertools
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import operator
@@ -15,6 +14,40 @@ import pandas as pd
 
 # Functions
 
+
+def get_articles(regex, text):
+    """extracts and merges all text in all query files"""
+    articles = list(set(re.findall(regex, text)))   # split articles and remove duplicates (will use later)
+    articles = ' '.join(str(article) for article in articles)   # join all text in a string
+    articles = articles.lower()                     # convert to lower case
+    return articles
+
+
+def count_articles(regex, text):
+    """counts number of articles in all years, from the number of url's found in query files"""
+    url_list = re.findall(regex, text)
+    number_of_articles = len(url_list)
+    del url_list
+    return number_of_articles
+
+
+def get_section(regex, text):
+    """
+    :param regex: regular expression to find given section (abstract, title, ...) in text
+    :param text: text from combined query result
+    :return: all combined titles from the query results
+    """
+    section = list(set(re.findall(regex, text)))
+    section = str(section).strip('[]')
+    section = section.lower()
+    section = section.replace("title={", " ")
+    section = section.replace("abstract={", " ")
+    section = section.replace("}", " ")
+    section = remove_punctuation(section)
+    section = remove_similars(section)
+    return section
+
+
 def remove_punctuation(dataString):
     symbols = ["'", "(", ")", ",", ".", ":", ";", "abstract={", "title={", "{", "}"]
     for item in symbols:
@@ -24,7 +57,7 @@ def remove_punctuation(dataString):
 
 def keywords_cleanup(indata_keywords):
     indata_keywords = indata_keywords.replace(",", ";")
-    symbols = ["[", "]", "(", ")", "'", "+", ":", "-", "null"]
+    symbols = ["[", "]", "(", ")", "'", "+", ":", "-", "null"]  # TODO test if backslashes and division symbols can be removed here as well from chemical formulae
     for item in symbols:
         indata_keywords = indata_keywords.replace(item, "")
     return indata_keywords
@@ -127,6 +160,7 @@ lwcycler = cycle(linewidth)
 rootPath = './bibsample/'           # folder containing the query result files *.bib
 pattern = '*.bib'                   # extension of query result files
 dirResults = './results/'           # output results folder
+
 if os.path.exists(dirResults):
     shutil.rmtree(dirResults)       # delete results folder if exists
 os.makedirs(dirResults)             # creates a new, empty one
@@ -137,6 +171,12 @@ keyword_results = ''
 keyword_graph_string = ''
 total_records = 0       # total number of records (articles) in all results files
 color = get_color()
+
+# regular expressions
+regex_article = r'\n@((.|\n)*?)\},\n\}\n'   # TODO test regex: separates last letter
+regex_url = r'url=\{(.*?)\},'
+regex_abstract = r'abstract=\{((.|\n)*?)},'
+regex_title = r'title=\{((.|\n)*?)},'
 
 
 # Keyword stats
@@ -159,80 +199,25 @@ for root, dirs, files in os.walk(rootPath):
         filenameOut = filename
         filename = rootPath + filename
         year = (filenameOut[0:4])               # retrieves year from results filename
-        # file_size = os.path.getsize(filename)   # get the current file size for the counter
         indata = (open(filename)).read()        # retrieves full text from results file
 
-# removing the DUPLICATES from the imported query file
-        everything_list = re.findall(r'\n@((.|\n)*?)\},\n\}\n', indata)     # separates indata per article
-        everything_list = list(set(everything_list))                        # removes duplicates
-        total_records += len(everything_list)                               # total number of records ( all!)
-        everything_list = ' '.join(str(e) for e in everything_list)         # convert back to a string
-        everything_list = everything_list.lower()                           # convert everything lower case
-        # count the number of RECORDS for the current year
-        article_list = re.findall(r'url=\{(.*?)\},', everything_list)
-        count = len(article_list)
-        del article_list
+        everything_list = get_articles(regex_article, indata)
+        total_records += count_articles(regex_url, indata)
 
-        # ----------------------------------------------------------- #
-        # #### Network analysis on keywords from the query results ####
-        # ----------------------------------------------------------- #
-        indata_keywords = re.findall(r'keywords=\{((.|\n)*?)},', everything_list)
-        indata_keywords = str(indata_keywords)
-        indata_keywords_authors = re.findall(r'author_keywords=\{((.|\n)*?)},', everything_list)
-        indata_keywords_authors = str(indata_keywords_authors)
-        indata_keywords = indata_keywords + ',' + indata_keywords_authors
-        indata = remove_punctuation(indata)
-        indata_keywords = remove_similars(indata_keywords)
-
-        regex = '([a-z0-9 -]*?);'
-        split = re.split(regex, indata_keywords)
-        listOfKeywords = split
-        listOfKeywords = filter(None, listOfKeywords)   # remove empty keywords which were showing up for some reason
-
-        keyword_graph_string = ''       #creates permutation for gephy netwqeok analysis
-        elements = [re.findall(r'[a-z0-9]{3,}', item) for item in listOfKeywords]
-        elements = [item for item in elements if len(item) > 1]
-        for elem in elements:
-            for x in itertools.combinations(elem, 2):
-                x = str(x).replace('(', '')
-                x = x.replace(')', '')
-                x = x.replace("'", '')
-                keyword_graph_string += x + '\n'
-
-# ----------------------------------------------------------- #
-# Analysis of the frequency of words in titles and abstracts  #
-# ----------------------------------------------------------- #
-
-# extract only the content of titles and abstracts
-        indata_abs = re.findall(r'abstract=\{((.|\n)*?)},', everything_list)
-        indata_abs = list(set(indata_abs))
-        indata_abs = str(indata_abs).strip('[]')
-        indata_title = re.findall(r'title=\{((.|\n)*?)},', everything_list)
-        indata_title = list(set(indata_title))
-        indata_title = str(indata_title).strip('[]')
-
-        indata = indata_title + indata_abs  # combine the abstract and title data
-        indata = indata.lower()
-        indata = indata.replace("title={", " ")
-        indata = indata.replace("abstract={", " ")
-        indata = indata.replace("}", " ")
-
-        rough_length = str(len(indata))
-        indata = remove_punctuation(indata)
-        indata = remove_similars(indata)
+        indata = get_section(regex_title, everything_list) + get_section(regex_abstract, everything_list)
         words = indata.split()  # convert the file into a list of words, for frequency analysis
 
         # count the occurrences of each word in the results files
-        result = dict((key, len(list(group))) for key, group in groupby(sorted(words)))
-        l = result.items()
-        l.sort(key=lambda item: item[1], reverse=True)    # sort results by decreasing order
+        result = dict((key, len(list(group))) for key, group in groupby(sorted(words)))     # groups similar instances (key) and returns a list (group), converts list to dictionary
+        l = result.items()                                                                  # convert into a list
+        l.sort(key=lambda item: item[1], reverse=True)                                      # sort results by decreasing order
 
         # preparing the raw text file for the wordle, using only the most frequent words
         # remove all entries with count less than 3, so that rarely used words are not considered
         keyword_sorted = [item for item in l if item[1] > 2]
         keyword_sorted_curated = filter(lambda name: name[0] not in listOfWords, keyword_sorted) # remove all keywords from the common words list
-        wordle_list = keyword_sorted_curated[:150] # select only the 150 most frequent words of the year
-        wordle_string = ' '.join(((e[0] + ' ') * int(e[1])) for e in wordle_list) # prepare the data for the wordle file
+        wordle_list = keyword_sorted_curated[:150]                                               # select only the 150 most frequent words of the year
+        wordle_string = ' '.join(((e[0] + ' ') * int(e[1])) for e in wordle_list)                # prepare the data for the wordle file
 
         # save wordle_string in txt file
         wordle_file = dirResults + year + '-wordle.txt'
@@ -246,7 +231,7 @@ for root, dirs, files in os.walk(rootPath):
                 keywordCount = str(dict(l)[batch_keyword])
             else:
                 keywordCount = '0'  # if no occurence of keyword found during the year
-            keyword_results = keyword_results + year + ', ' + keywordCount + ', ' + str(count) + ', ' + rough_length + ', ' + '\n'
+            keyword_results = keyword_results + year + ', ' + keywordCount + ', ' + str(total_records) + ', ' + '\n'
             # keyword_results = keyword_results + year + ', ' + keywordCount + ', ' + str(count) + ', ' + rough_length
             # + ', ' + str(average_abstract_length) + ', '  + str(average_title_length) + '\n'
             outFileKeywordName = dirResults + batch_keyword + '-results.csv'
@@ -270,6 +255,27 @@ for root, dirs, files in os.walk(rootPath):
             for t in keyword_sorted_curated:
                 of.write(','.join(str(s) for s in t) + '\n')    # write the count for all words found in data file
 
+# ----------------------------------------------------------- #
+# #### Network analysis on keywords from the query results ####
+# ----------------------------------------------------------- #
+#
+#         indata_keywords = re.findall(r'keywords=\{((.|\n)*?)},', everything_list)
+#         indata_keywords = str(indata_keywords)
+#         indata_keywords_authors = re.findall(r'author_keywords=\{((.|\n)*?)},', everything_list)
+#         indata_keywords_authors = str(indata_keywords_authors)
+#         indata_keywords = indata_keywords + ',' + indata_keywords_authors
+#         indata = remove_punctuation(indata)
+#         indata_keywords = remove_similars(indata_keywords)
+#
+#         regex = '([a-z0-9 -]*?);'
+#         split = re.split(regex, indata_keywords)
+#         listOfKeywords = split
+#         listOfKeywords = filter(None, listOfKeywords)   # remove empty keywords which were showing up for some reason
+
+# ----------------------------------------------------------- #
+# Analysis of the frequency of words in titles and abstracts  #
+# ----------------------------------------------------------- #
+
 # Second master plot, with the KEYWORDS results
 
 number_of_keywords = len(analyse)
@@ -282,7 +288,7 @@ sub1.xaxis.set_major_locator(MaxNLocator(5))
 minorLocator = MultipleLocator(1)
 majorLocator = MultipleLocator(10)
 sub1.xaxis.set_minor_locator(minorLocator)
-sub1.axes.set_xlim(left=1970, right=2013)
+sub1.axes.set_xlim(left=1989, right=2001)
 sub1.tick_params(which='minor', color=axes_color, width=axes_lw)
 sub1.tick_params(which='major', color=axes_color, width=axes_lw)
 sub1.set_yticklabels([])
@@ -308,9 +314,9 @@ for t in analyse:
     valeurYear = [x[0] for x in result]
     minYear = min(valeurYear)
     maxYear = max(valeurYear)
-    valeurLength = [x[3] for x in result]
+    valeurLength = [x[2] for x in result]
     valeur_ref = min(valeurLength)
-    valeurY = [(x[1]/x[3]*valeur_ref) for x in result]  # normalization par nombre de characteres de toutes resultats .dans l'ann+ee
+    valeurY = [(x[1]/x[2]*valeur_ref) for x in result]  # normalization par nombre de articles dans l'annee
     max_valeurYear = max(valeurY)
     acolor = next(color)
     sub1.plot(valeurYear, valeurY, next(linecycler), lw=next(lwcycler), color=acolor, label=t, alpha=1)
@@ -340,7 +346,7 @@ hl = sorted(zip(handles, labels),
             key=operator.itemgetter(1))
 handles2, labels2 = zip(*hl)
 leg = sub1.legend(handles2, labels2,  bbox_to_anchor=(0.96, 0.5), loc='center left', prop={'size': 9}, handlelength=1.3, handletextpad=0.5)
-leg.get_frame().set_alpha(0)    # this will make the box totally transparent
+leg.get_frame().set_alpha(0)            # this will make the box totally transparent
 leg.get_frame().set_edgecolor('white')  # this will make the edges of the border white
 
 set_fontsize(plt, plot_font_size)

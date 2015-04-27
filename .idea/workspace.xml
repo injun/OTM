@@ -2,17 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9ea6960-7a0d-4d1f-89f2-299a261f994f" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\1997(1).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\1997(2).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\1998(1).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\1998(2).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\1999(1).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\1999(2).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\2000(1).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\2000(2).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\Bibsample\2000(3).bib" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\functions.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\Python\OTM\util.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/code/keywordList.txt" afterPath="$PROJECT_DIR$/code/keywordList.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/my_OTM.py" afterPath="$PROJECT_DIR$/my_OTM.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -42,11 +31,32 @@
       <file leaf-file-name="my_OTM.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/my_OTM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33887044" vertical-offset="2142" max-vertical-offset="6052">
-              <caret line="138" column="19" selection-start-line="138" selection-start-column="19" selection-end-line="138" selection-end-column="19" />
+            <state vertical-scroll-proportion="-1.4477612" vertical-offset="1315" max-vertical-offset="4692">
+              <caret line="50" column="23" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
+                <element signature="e#362#711#0" expanded="false" />
+                <element signature="e#751#967#0" expanded="false" />
+                <element signature="e#1004#1563#0" expanded="false" />
+                <element signature="e#1004#1210#1" expanded="false" />
+                <element signature="e#1606#1784#0" expanded="false" />
+                <element signature="e#1830#2156#0" expanded="false" />
+                <element signature="e#2196#2390#0" expanded="false" />
+                <element signature="e#2414#2491#0" expanded="false" />
+                <element signature="e#2531#2776#0" expanded="false" />
+                <element signature="e#2805#2934#0" expanded="false" />
+                <element signature="e#3504#5331#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="temp.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/temp.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -54,8 +64,8 @@
       <file leaf-file-name="OTM_.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OTM_.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1327" max-vertical-offset="20128">
-              <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="5101" max-vertical-offset="20128">
+              <caret line="311" column="63" selection-start-line="311" selection-start-column="63" selection-end-line="311" selection-end-column="63" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -89,8 +99,8 @@
         <option value="C:/Thinkful/unit_3/weather_call.py" />
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/OTM.py" />
-        <option value="$PROJECT_DIR$/temp.py" />
         <option value="$PROJECT_DIR$/OTM_.py" />
+        <option value="$PROJECT_DIR$/temp.py" />
         <option value="$PROJECT_DIR$/my_OTM.py" />
       </list>
     </option>
@@ -424,9 +434,9 @@
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.my_OTM" />
-        <item index="1" class="java.lang.String" itemvalue="Python.OTM_" />
-        <item index="2" class="java.lang.String" itemvalue="Python.OTM" />
-        <item index="3" class="java.lang.String" itemvalue="Python.temp" />
+        <item index="1" class="java.lang.String" itemvalue="Python.temp" />
+        <item index="2" class="java.lang.String" itemvalue="Python.OTM_" />
+        <item index="3" class="java.lang.String" itemvalue="Python.OTM" />
         <item index="4" class="java.lang.String" itemvalue="Python.OTM (1)" />
       </list>
     </recent_temporary>
@@ -514,7 +524,13 @@
       <option name="project" value="LOCAL" />
       <updated>1429769411849</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="working version of keyword counting">
+      <created>1429992738198</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1429992738198</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -538,7 +554,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1936" height="1056" extended-state="0" />
+    <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864866" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -548,11 +564,11 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28648648" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864866" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3189189" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31783783" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20826833" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864866" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4616216" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32216215" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -589,7 +605,8 @@
     <MESSAGE value="revert to last working version + cleanup" />
     <MESSAGE value="commented out page length and email stats" />
     <MESSAGE value="commented out abstract and titles stats,&#10;sub4 and sub variable for plotting corresponding stats" />
-    <option name="LAST_COMMIT_MESSAGE" value="commented out abstract and titles stats,&#10;sub4 and sub variable for plotting corresponding stats" />
+    <MESSAGE value="working version of keyword counting" />
+    <option name="LAST_COMMIT_MESSAGE" value="working version of keyword counting" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -603,21 +620,73 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="41" />
+      <option name="time" value="49" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="indata_keywords" />
+        <watch expression="l" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/my_OTM.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5610">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#362#711#0" expanded="false" />
+            <element signature="e#751#967#0" expanded="false" />
+            <element signature="e#1004#1563#0" expanded="false" />
+            <element signature="e#1004#1210#1" expanded="false" />
+            <element signature="e#1606#1784#0" expanded="false" />
+            <element signature="e#1830#2156#0" expanded="false" />
+            <element signature="e#2196#2390#0" expanded="false" />
+            <element signature="e#2414#2491#0" expanded="false" />
+            <element signature="e#2531#2776#0" expanded="false" />
+            <element signature="e#2805#2934#0" expanded="false" />
+            <element signature="e#3504#5331#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OTM_.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1327" max-vertical-offset="20128">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OTM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7369" max-vertical-offset="19754">
+          <caret line="455" column="8" selection-start-line="455" selection-start-column="8" selection-end-line="455" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my_OTM.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6103">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#362#711#0" expanded="false" />
+            <element signature="e#751#967#0" expanded="false" />
+            <element signature="e#1004#1563#0" expanded="false" />
+            <element signature="e#1004#1210#1" expanded="false" />
+            <element signature="e#1606#1784#0" expanded="false" />
+            <element signature="e#1830#2156#0" expanded="false" />
+            <element signature="e#2196#2390#0" expanded="false" />
+            <element signature="e#2414#2491#0" expanded="false" />
+            <element signature="e#2531#2776#0" expanded="false" />
+            <element signature="e#2805#2934#0" expanded="false" />
+            <element signature="e#3504#5331#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -648,6 +717,17 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#362#711#0" expanded="false" />
+            <element signature="e#751#967#0" expanded="false" />
+            <element signature="e#1004#1563#0" expanded="false" />
+            <element signature="e#1004#1210#1" expanded="false" />
+            <element signature="e#1606#1784#0" expanded="false" />
+            <element signature="e#1830#2156#0" expanded="false" />
+            <element signature="e#2196#2390#0" expanded="false" />
+            <element signature="e#2414#2491#0" expanded="false" />
+            <element signature="e#2531#2776#0" expanded="false" />
+            <element signature="e#2805#2934#0" expanded="false" />
+            <element signature="e#3504#5331#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -678,6 +758,17 @@
           <caret line="291" column="0" selection-start-line="291" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#362#711#0" expanded="false" />
+            <element signature="e#751#967#0" expanded="false" />
+            <element signature="e#1004#1563#0" expanded="false" />
+            <element signature="e#1004#1210#1" expanded="false" />
+            <element signature="e#1606#1784#0" expanded="false" />
+            <element signature="e#1830#2156#0" expanded="false" />
+            <element signature="e#2196#2390#0" expanded="false" />
+            <element signature="e#2414#2491#0" expanded="false" />
+            <element signature="e#2531#2776#0" expanded="false" />
+            <element signature="e#2805#2934#0" expanded="false" />
+            <element signature="e#3504#5331#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -708,6 +799,17 @@
           <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#362#711#0" expanded="false" />
+            <element signature="e#751#967#0" expanded="false" />
+            <element signature="e#1004#1563#0" expanded="false" />
+            <element signature="e#1004#1210#1" expanded="false" />
+            <element signature="e#1606#1784#0" expanded="false" />
+            <element signature="e#1830#2156#0" expanded="false" />
+            <element signature="e#2196#2390#0" expanded="false" />
+            <element signature="e#2414#2491#0" expanded="false" />
+            <element signature="e#2531#2776#0" expanded="false" />
+            <element signature="e#2805#2934#0" expanded="false" />
+            <element signature="e#3504#5331#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -815,13 +917,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm40/system/python_stubs/-946255732/itertools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.4903846" vertical-offset="306" max-vertical-offset="10948">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Anaconda/Lib/site-packages/matplotlib/gridspec.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33251834" vertical-offset="2363" max-vertical-offset="8143">
@@ -854,16 +949,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="27707" max-vertical-offset="37825">
           <caret line="1642" column="0" selection-start-line="1642" selection-start-column="0" selection-end-line="1643" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OTM_.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1327" max-vertical-offset="20128">
-          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -877,12 +963,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/my_OTM.py">
+    <entry file="file://$PROJECT_DIR$/OTM_.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33887044" vertical-offset="2142" max-vertical-offset="6052">
-          <caret line="138" column="19" selection-start-line="138" selection-start-column="19" selection-end-line="138" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="5101" max-vertical-offset="20128">
+          <caret line="311" column="63" selection-start-line="311" selection-start-column="63" selection-end-line="311" selection-end-column="63" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm40/system/python_stubs/-946255732/itertools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="4576" max-vertical-offset="10948">
+          <caret line="281" column="8" selection-start-line="281" selection-start-column="8" selection-end-line="281" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/temp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my_OTM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.4477612" vertical-offset="1315" max-vertical-offset="4692">
+          <caret line="50" column="23" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#362#711#0" expanded="false" />
+            <element signature="e#751#967#0" expanded="false" />
+            <element signature="e#1004#1563#0" expanded="false" />
+            <element signature="e#1004#1210#1" expanded="false" />
+            <element signature="e#1606#1784#0" expanded="false" />
+            <element signature="e#1830#2156#0" expanded="false" />
+            <element signature="e#2196#2390#0" expanded="false" />
+            <element signature="e#2414#2491#0" expanded="false" />
+            <element signature="e#2531#2776#0" expanded="false" />
+            <element signature="e#2805#2934#0" expanded="false" />
+            <element signature="e#3504#5331#0" expanded="false" />
           </folding>
         </state>
       </provider>
