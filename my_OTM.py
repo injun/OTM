@@ -44,35 +44,39 @@ def get_section(regex, text):
     section = section.replace("abstract={", " ")
     section = section.replace("}", " ")
     section = remove_punctuation(section)
-    section = remove_similars(section)
+    section = rmv_similar_words(section)
     return section
 
 
-def remove_punctuation(dataString):
+def remove_punctuation(text):
     symbols = ["'", "(", ")", ",", ".", ":", ";", "abstract={", "title={", "{", "}"]
-    for item in symbols:
-        dataString = dataString.replace(item, " ")
-    return dataString
+    for symbol in symbols:
+        text = text.replace(symbol, " ")
+    return text
 
 
 def keywords_cleanup(indata_keywords):
     indata_keywords = indata_keywords.replace(",", ";")
-    symbols = ["[", "]", "(", ")", "'", "+", ":", "-", "null"]  # TODO test if backslashes and division symbols can be removed here as well from chemical formulae
-    for item in symbols:
-        indata_keywords = indata_keywords.replace(item, "")
+    symbols = ["[", "]", "(", ")", "'", "+", ":", "-", "null"]
+    for symbol in symbols:
+        indata_keywords = indata_keywords.replace(symbol, " ")
     return indata_keywords
 
 
-def remove_similars(dataString):
-    data = pd.read_table('code/similars.csv', sep=',')
-    for i in range(len(data)):
-        dataString = dataString.replace(data.at[i, 'ORIGINAL'], data.at[i, 'REPLACEMENT'])
-    return dataString
+# TODO replace htlm code for symbols and chemical formulae in results by proper characters
+
+
+def rmv_similar_words(text):
+    list_of_similar_words = pd.read_table('code/similars.csv', sep=',')
+    for word in range(len(list_of_similar_words)):
+        replaced_text = text.replace(list_of_similar_words.at[word, 'ORIGINAL'],
+                                     list_of_similar_words.at[word, 'REPLACEMENT'])
+    return replaced_text
 
 
 def get_color():
-    for item in ['r', 'b', 'k', 'r', 'b', 'k', 'r', 'b', 'k']:
-        yield item
+    for color in ['r', 'b', 'k', 'r', 'b', 'k', 'r', 'b', 'k']:
+        yield color
 
 
 def set_fontsize(fig, fontsize):
@@ -104,7 +108,6 @@ plot_font_size = 8
 perso_linewidth = 0.3
 
 # Customizing general matplotlib rc parameters
-
 
 def init_plotting():        # This will change your default rcParams
     plt.rcParams['figure.figsize'] = (3, 3)
@@ -156,11 +159,9 @@ lwcycler = cycle(linewidth)
 # Initialization of the script
 
 # set paths to working folders
-# script     = argv
 rootPath = './bibsample/'           # folder containing the query result files *.bib
 pattern = '*.bib'                   # extension of query result files
 dirResults = './results/'           # output results folder
-
 if os.path.exists(dirResults):
     shutil.rmtree(dirResults)       # delete results folder if exists
 os.makedirs(dirResults)             # creates a new, empty one
@@ -181,10 +182,16 @@ regex_title = r'title=\{((.|\n)*?)},'
 
 # Keyword stats
 
-# reading common words list, convert the txt into a list
-listOfWords = []
+# reading common keywords list, convert the txt into a list
+common_keywords = []
 with open('code/CommonkeywordList.txt', 'r') as fh:
-    listOfWords = fh.read()
+    common_keywords = fh.read()
+
+common_words = []
+with open('code/commonWords.txt', 'r') as fh:
+    common_words = fh.read()
+
+
 
 # read the list of keywords to be analysed; have to be exactly 8 keywords, or the plot panels won't work
 analyse = []
@@ -207,22 +214,16 @@ for root, dirs, files in os.walk(rootPath):
         indata = get_section(regex_title, everything_list) + get_section(regex_abstract, everything_list)
         words = indata.split()  # convert the file into a list of words, for frequency analysis
 
-        # count the occurrences of each word in the results files
+        # # count the occurrences of each word in the results files
         result = dict((key, len(list(group))) for key, group in groupby(sorted(words)))     # groups similar instances (key) and returns a list (group), converts list to dictionary
         l = result.items()                                                                  # convert into a list
         l.sort(key=lambda item: item[1], reverse=True)                                      # sort results by decreasing order
-
+        #
         # preparing the raw text file for the wordle, using only the most frequent words
         # remove all entries with count less than 3, so that rarely used words are not considered
         keyword_sorted = [item for item in l if item[1] > 2]
-        keyword_sorted_curated = filter(lambda name: name[0] not in listOfWords, keyword_sorted) # remove all keywords from the common words list
-        wordle_list = keyword_sorted_curated[:150]                                               # select only the 150 most frequent words of the year
-        wordle_string = ' '.join(((e[0] + ' ') * int(e[1])) for e in wordle_list)                # prepare the data for the wordle file
-
-        # save wordle_string in txt file
-        wordle_file = dirResults + year + '-wordle.txt'
-        with open(wordle_file, 'w') as wf:
-            wf.write(wordle_string)
+        keyword_sorted_temp = filter(lambda word: word[0] not in common_keywords, keyword_sorted) # remove all common keywords
+        keyword_sorted_curated = filter(lambda word: word[0] not in common_words, keyword_sorted_temp)    # remove all common words
 
         # prepare the string for the result file for all the keywords investigated
         for t in analyse:
@@ -232,8 +233,6 @@ for root, dirs, files in os.walk(rootPath):
             else:
                 keywordCount = '0'  # if no occurence of keyword found during the year
             keyword_results = keyword_results + year + ', ' + keywordCount + ', ' + str(total_records) + ', ' + '\n'
-            # keyword_results = keyword_results + year + ', ' + keywordCount + ', ' + str(count) + ', ' + rough_length
-            # + ', ' + str(average_abstract_length) + ', '  + str(average_title_length) + '\n'
             outFileKeywordName = dirResults + batch_keyword + '-results.csv'
             out_fileKeyword = open(outFileKeywordName, 'a+')
             out_fileKeyword.write(keyword_results)
@@ -254,23 +253,6 @@ for root, dirs, files in os.walk(rootPath):
         with open(outFileName, 'w') as of:
             for t in keyword_sorted_curated:
                 of.write(','.join(str(s) for s in t) + '\n')    # write the count for all words found in data file
-
-# ----------------------------------------------------------- #
-# #### Network analysis on keywords from the query results ####
-# ----------------------------------------------------------- #
-#
-#         indata_keywords = re.findall(r'keywords=\{((.|\n)*?)},', everything_list)
-#         indata_keywords = str(indata_keywords)
-#         indata_keywords_authors = re.findall(r'author_keywords=\{((.|\n)*?)},', everything_list)
-#         indata_keywords_authors = str(indata_keywords_authors)
-#         indata_keywords = indata_keywords + ',' + indata_keywords_authors
-#         indata = remove_punctuation(indata)
-#         indata_keywords = remove_similars(indata_keywords)
-#
-#         regex = '([a-z0-9 -]*?);'
-#         split = re.split(regex, indata_keywords)
-#         listOfKeywords = split
-#         listOfKeywords = filter(None, listOfKeywords)   # remove empty keywords which were showing up for some reason
 
 # ----------------------------------------------------------- #
 # Analysis of the frequency of words in titles and abstracts  #
@@ -333,7 +315,7 @@ for t in analyse:
     sub3.spines['right'].set_visible(False)
     sub3.spines['left'].set_visible(False)
     sub3.spines['bottom'].set_visible(False)
-    sub3.plot(valeurYear, valeurY / max_valeurYear, 'ro', label=t, alpha=1, lw=2)
+    sub3.plot(valeurYear, valeurY / max_valeurYear, 'k-', label=t, alpha=1, lw=0.75)
     sub3.tick_params(which='minor', color=axes_color, width=axes_lw)
     sub3.tick_params(which='major', color=axes_color, width=axes_lw)
     sub3.xaxis.grid(True, linestyle='-', linewidth=axes_lw, color=axes_color)
